@@ -1,5 +1,6 @@
 # Metabolic capacity of the gut microbiota associates with performance of broiler chickens
 
+[![DOI](https://zenodo.org/badge/634994858.svg)](https://zenodo.org/badge/latestdoi/634994858)
 Development of functional attributes of chicken-associated microbial communities, and their link to chicken body weight
 
 ## Repository structure
