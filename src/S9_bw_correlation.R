@@ -171,6 +171,45 @@ plot_d35  <-
              terms = 'summed_increasers',
              show.data = TRUE)
 
+# Refit the model with the double interactions between breed * summed_increasers + sex* summed_increasers
+model_d35_breed_sex <-
+  lme(chicken_body_weight ~ trial + age + treatment + breed * summed_increasers + sex* summed_increasers ,
+      random = ~ 1 | pen,
+      data = metadata_d35)
+
+# Hypothesis tests
+summary(model_d35_breed_sex)
+anova(model_d35_breed_sex)
+
+# Plots with sex- and breed-specific lines
+plot_model(model_d35_breed_sex,
+           type = 'eff',
+           title = 'increasers - d35',
+           terms = c('summed_increasers','sex'),
+           show.data = TRUE)
+plot_model(model_d35_breed_sex,
+           type = 'eff',
+           title = 'increasers - d35',
+           terms = c('summed_increasers','breed'),
+           show.data = TRUE)
+
+## Difference in BW between lowest and highest percentiles of clr(summed_increasers)
+increasers05q <- metadata_d35[metadata_d35$summed_increasers < quantile(metadata_d35$summed_increasers, probs = 0.05),]
+increasers95q <- metadata_d35[metadata_d35$summed_increasers > quantile(metadata_d35$summed_increasers, probs = 0.95),]
+boxplot(increasers05q$chicken_body_weight, increasers95q$chicken_body_weight)
+
+# Difference in body weight between groups
+mean(BW_increasers95q) - mean(BW_increasers05q)
+
+t.test(increasers05q$chicken_body_weight, increasers95q$chicken_body_weight, var.equal = FALSE)
+
+# Representation of different kinds of chicken in both groups.
+data.frame(increasers05q$breed, increasers95q$breed)
+data.frame(increasers05q$sex, increasers95q$sex)
+data.frame(increasers05q$trial, increasers95q$trial)
+data.frame(increasers05q$treatment, increasers95q$treatment)
+data.frame(increasers05q$age, increasers95q$age)
+
 
 #### decreasers
 # Linear Mixed Effects Models
